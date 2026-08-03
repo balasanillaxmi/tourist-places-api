@@ -1,7 +1,13 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
-const places = require("./data/places");
+const {
+  getAllPlaces,
+  getPlaceById,
+  createPlace,
+  updatePlace,
+  deletePlace,
+} = require("./data/db");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -11,15 +17,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-let nextId = places.reduce((max, place) => Math.max(max, place.id), 0) + 1;
-
-function findPlaceIndex(id) {
-  return places.findIndex((place) => place.id === id);
-}
-
 // GET all places
 app.get(BASE_PATH, (req, res) => {
-  res.status(200).json(places);
+  res.status(200).json(getAllPlaces());
 });
 
 // GET a single place by id
@@ -30,7 +30,7 @@ app.get(`${BASE_PATH}/:id`, (req, res) => {
     return res.status(400).json({ error: "Invalid id. Id must be a number." });
   }
 
-  const place = places.find((p) => p.id === id);
+  const place = getPlaceById(id);
 
   if (!place) {
     return res.status(404).json({ error: `Place with id ${id} not found.` });
@@ -50,17 +50,15 @@ app.post(BASE_PATH, (req, res) => {
     });
   }
 
-  const newPlace = {
-    id: nextId++,
+  const newPlace = createPlace({
     name,
     country,
     continent,
     description,
     imageUrl:
       imageUrl || `https://loremflickr.com/800/600/${encodeURIComponent(name.replace(/\s+/g, ""))}`,
-  };
+  });
 
-  places.push(newPlace);
   res.status(201).json(newPlace);
 });
 
@@ -72,12 +70,6 @@ app.put(`${BASE_PATH}/:id`, (req, res) => {
     return res.status(400).json({ error: "Invalid id. Id must be a number." });
   }
 
-  const index = findPlaceIndex(id);
-
-  if (index === -1) {
-    return res.status(404).json({ error: `Place with id ${id} not found.` });
-  }
-
   const { name, country, continent, description, imageUrl } = req.body || {};
 
   if (!name && !country && !continent && !description && !imageUrl) {
@@ -87,16 +79,18 @@ app.put(`${BASE_PATH}/:id`, (req, res) => {
     });
   }
 
-  const updatedPlace = {
-    ...places[index],
+  const updatedPlace = updatePlace(id, {
     ...(name && { name }),
     ...(country && { country }),
     ...(continent && { continent }),
     ...(description && { description }),
     ...(imageUrl && { imageUrl }),
-  };
+  });
 
-  places[index] = updatedPlace;
+  if (!updatedPlace) {
+    return res.status(404).json({ error: `Place with id ${id} not found.` });
+  }
+
   res.status(200).json(updatedPlace);
 });
 
@@ -108,13 +102,12 @@ app.delete(`${BASE_PATH}/:id`, (req, res) => {
     return res.status(400).json({ error: "Invalid id. Id must be a number." });
   }
 
-  const index = findPlaceIndex(id);
+  const deletedPlace = deletePlace(id);
 
-  if (index === -1) {
+  if (!deletedPlace) {
     return res.status(404).json({ error: `Place with id ${id} not found.` });
   }
 
-  const [deletedPlace] = places.splice(index, 1);
   res.status(200).json({ message: "Place deleted successfully.", place: deletedPlace });
 });
 

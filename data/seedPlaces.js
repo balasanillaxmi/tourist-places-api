@@ -1,4 +1,4 @@
-const places = [
+const seedPlaces = [
   {
     id: 1,
     name: "Banff National Park",
@@ -91,4 +91,4 @@ const places = [
   },
 ];
 
-module.exports = places;
+module.exports = seedPlaces;

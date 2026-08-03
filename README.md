@@ -8,6 +8,7 @@ world's most breathtaking tourist destinations.
 - Node.js
 - Express
 - CORS enabled
+- SQLite (via `better-sqlite3`) for persistent storage
 
 ## Setup Instructions
 
@@ -29,6 +30,20 @@ world's most breathtaking tourist destinations.
    - Local: http://localhost:3000/
    - Hosted: http://<your-server-ip>/tourist-places-api/api/places
      (e.g. http://65.0.104.155/tourist-places-api/api/places)
+
+## Database
+
+Data is stored in a local SQLite database file (`data/places.db`), managed through
+`data/db.js`. On first run, the `places` table is created automatically and seeded
+with the original 10 places from `data/seedPlaces.js`. All POST/PUT/DELETE requests
+persist to this file, so data survives server restarts **when run locally**.
+
+> **Note on Render's free tier:** Render's free instances use an ephemeral
+> filesystem — any file written at runtime (including `places.db`) is reset on
+> every redeploy or when the service sleeps and wakes back up. For data to persist
+> permanently on a hosted deployment, you'd need a paid persistent disk or an
+> externally hosted database (e.g. MongoDB Atlas). Locally, persistence works
+> exactly as expected.
 
 ## Base Path
 
