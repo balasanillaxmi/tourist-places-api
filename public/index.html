@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Laxmi's Top Favourite Places in the World</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background-color: #f7f5f2;
+      color: #2b2b2b;
+    }
+
+    header {
+      background-color: #2c3e50;
+      color: #ffffff;
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    header p {
+      margin: 0.5rem 0 0;
+      color: #cbd5e0;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .place {
+      background-color: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      margin-bottom: 3rem;
+    }
+
+    .place img {
+      width: 100%;
+      height: 380px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .place-content {
+      padding: 1.5rem 2rem 2rem;
+    }
+
+    .place-content h2 {
+      margin: 0 0 0.3rem;
+      font-size: 1.6rem;
+      color: #2c3e50;
+    }
+
+    .place-location {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #c0392b;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 0.9rem;
+    }
+
+    .place-description {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: #444444;
+      margin: 0;
+    }
+
+    .divider {
+      border: none;
+      border-top: 2px solid #e0dcd5;
+      max-width: 800px;
+      margin: 0 auto 3rem;
+    }
+
+    .status-message {
+      text-align: center;
+      padding: 2rem;
+      font-size: 1.1rem;
+      color: #666666;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Laxmi's Top Favourite Places in the World</h1>
+    <p>A curated scroll through breathtaking destinations across the globe</p>
+  </header>
+
+  <main id="places-container">
+    <p class="status-message">Loading places...</p>
+  </main>
+
+  <script>
+    async function loadPlaces() {
+      const container = document.getElementById("places-container");
+
+      try {
+        const response = await fetch("/tourist-places-api/api/places");
+
+        if (!response.ok) {
+          throw new Error(`Request failed with status ${response.status}`);
+        }
+
+        const places = await response.json();
+
+        if (!Array.isArray(places) || places.length === 0) {
+          container.innerHTML = '<p class="status-message">No places found.</p>';
+          return;
+        }
+
+        container.innerHTML = places
+          .map((place, index) => {
+            const location = [place.country, place.continent].filter(Boolean).join(", ");
+            const card = `
+              <article class="place">
+                <img src="${place.imageUrl}" alt="${place.name}" loading="lazy" />
+                <div class="place-content">
+                  <h2>${place.name}</h2>
+                  <div class="place-location">${location}</div>
+                  <p class="place-description">${place.description}</p>
+                </div>
+              </article>
+            `;
+            const isLast = index === places.length - 1;
+            return isLast ? card : card + '<hr class="divider" />';
+          })
+          .join("");
+      } catch (error) {
+        container.innerHTML = `<p class="status-message">Failed to load places: ${error.message}</p>`;
+      }
+    }
+
+    loadPlaces();
+  </script>
+</body>
+</html>
