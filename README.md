@@ -56,7 +56,7 @@ GET /tourist-places-api/api/places
     "country": "Canada",
     "continent": "North America",
     "description": "Canada's oldest national park, famous for turquoise glacial lakes and snow-capped Rocky Mountain peaks. It offers world-class hiking, wildlife spotting, and skiing throughout the year.",
-    "imageUrl": "https://source.unsplash.com/800x600/?banff,national-park"
+    "imageUrl": "https://loremflickr.com/800/600/banff,nationalpark"
   },
   {
     "id": 2,
@@ -64,7 +64,7 @@ GET /tourist-places-api/api/places
     "country": "Japan",
     "continent": "Asia",
     "description": "Japan's tallest peak and an iconic, near-symmetrical volcano revered as a sacred site. It draws climbers during the summer season and photographers year-round for its stunning views over Lake Kawaguchi.",
-    "imageUrl": "https://source.unsplash.com/800x600/?mount-fuji"
+    "imageUrl": "https://loremflickr.com/800/600/mountfuji"
   }
 ]
 ```
@@ -90,7 +90,7 @@ GET /tourist-places-api/api/places/1
   "country": "Canada",
   "continent": "North America",
   "description": "Canada's oldest national park, famous for turquoise glacial lakes and snow-capped Rocky Mountain peaks. It offers world-class hiking, wildlife spotting, and skiing throughout the year.",
-  "imageUrl": "https://source.unsplash.com/800x600/?banff,national-park"
+  "imageUrl": "https://loremflickr.com/800/600/banff,nationalpark"
 }
 ```
 
@@ -119,7 +119,7 @@ Content-Type: application/json
   "country": "Greece",
   "continent": "Europe",
   "description": "A stunning volcanic island known for whitewashed buildings and blue-domed churches overlooking the Aegean Sea.",
-  "imageUrl": "https://source.unsplash.com/800x600/?santorini"
+  "imageUrl": "https://loremflickr.com/800/600/santorini"
 }
 ```
 
@@ -132,7 +132,7 @@ Content-Type: application/json
   "country": "Greece",
   "continent": "Europe",
   "description": "A stunning volcanic island known for whitewashed buildings and blue-domed churches overlooking the Aegean Sea.",
-  "imageUrl": "https://source.unsplash.com/800x600/?santorini"
+  "imageUrl": "https://loremflickr.com/800/600/santorini"
 }
 ```
 
@@ -170,7 +170,7 @@ Content-Type: application/json
   "country": "Greece",
   "continent": "Europe",
   "description": "A romantic Greek island famous for its dramatic caldera views and stunning sunsets over the Aegean Sea.",
-  "imageUrl": "https://source.unsplash.com/800x600/?santorini"
+  "imageUrl": "https://loremflickr.com/800/600/santorini"
 }
 ```
 
@@ -203,7 +203,7 @@ DELETE /tourist-places-api/api/places/11
     "country": "Greece",
     "continent": "Europe",
     "description": "A romantic Greek island famous for its dramatic caldera views and stunning sunsets over the Aegean Sea.",
-    "imageUrl": "https://source.unsplash.com/800x600/?santorini"
+    "imageUrl": "https://loremflickr.com/800/600/santorini"
   }
 }
 ```

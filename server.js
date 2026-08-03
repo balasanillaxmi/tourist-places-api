@@ -57,7 +57,7 @@ app.post(BASE_PATH, (req, res) => {
     continent,
     description,
     imageUrl:
-      imageUrl || `https://source.unsplash.com/800x600/?${encodeURIComponent(name)}`,
+      imageUrl || `https://loremflickr.com/800/600/${encodeURIComponent(name.replace(/\s+/g, ""))}`,
   };
 
   places.push(newPlace);
